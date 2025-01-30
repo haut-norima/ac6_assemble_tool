@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Armored Core 6 Customizer</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ac6/styles.css' %}">
+</head>
+<body>
+    <h1>Armored Core 6 Customizer</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="head">Head:</label>
+        <select id="head" name="head">
+            {% for head in heads %}
+                <option value="{{ head.id }}" {% if head.id == selected_head %}selected{% endif %}>{{ head.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="core">Core:</label>
+        <select id="core" name="core">
+            {% for core in cores %}
+                <option value="{{ core.id }}" {% if core.id == selected_core %}selected{% endif %}>{{ core.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="arm">Arm:</label>
+        <select id="arm" name="arm">
+            {% for arm in arms %}
+                <option value="{{ arm.id }}" {% if arm.id == selected_arm %}selected{% endif %}>{{ arm.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="leg">Leg:</label>
+        <select id="leg" name="leg">
+            {% for leg in legs %}
+                <option value="{{ leg.id }}" {% if leg.id == selected_leg %}selected{% endif %}>{{ leg.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="fcs">FCS:</label>
+        <select id="fcs" name="fcs">
+            {% for fcs in fcs %}
+                <option value="{{ fcs.id }}" {% if fcs.id == selected_fcs %}selected{% endif %}>{{ fcs.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="booster">Booster:</label>
+        <select id="booster" name="booster">
+            {% for booster in boosters %}
+                <option value="{{ booster.id }}" {% if booster.id == selected_booster %}selected{% endif %}>{{ booster.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="generator">Generator:</label>
+        <select id="generator" name="generator">
+            {% for generator in generators %}
+                <option value="{{ generator.id }}" {% if generator.id == selected_generator %}selected{% endif %}>{{ generator.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="unit_left_arm">Left Arm Unit:</label>
+        <select id="unit_left_arm" name="unit_left_arm">
+            <option value="">None</option>
+            {% for unit in units %}
+                {% if unit.is_left_arm %}
+                    <option value="{{ unit.id }}" {% if unit.id == selected_unit_left_arm %}selected{% endif %}>{{ unit.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br>
+
+        <label for="unit_right_arm">Right Arm Unit:</label>
+        <select id="unit_right_arm" name="unit_right_arm">
+            <option value="">None</option>
+            {% for unit in units %}
+                {% if unit.is_right_arm %}
+                    <option value="{{ unit.id }}" {% if unit.id == selected_unit_right_arm %}selected{% endif %}>{{ unit.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br>
+
+        <label for="unit_left_shoulder">Left Shoulder Unit:</label>
+        <select id="unit_left_shoulder" name="unit_left_shoulder">
+            <option value="">None</option>
+            {% for unit in units %}
+                {% if unit.is_left_shoulder %}
+                    <option value="{{ unit.id }}" {% if unit.id == selected_unit_left_shoulder %}selected{% endif %}>{{ unit.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br>
+
+        <label for="unit_right_shoulder">Right Shoulder Unit:</label>
+        <select id="unit_right_shoulder" name="unit_right_shoulder">
+            <option value="">None</option>
+            {% for unit in units %}
+                {% if unit.is_right_shoulder %}
+                    <option value="{{ unit.id }}" {% if unit.id == selected_unit_right_shoulder %}selected{% endif %}>{{ unit.name }}</option>
+                {% endif %}
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">確定</button>
+    </form>
+    {% if total_ap %}
+        <div class="results">
+            <h2>Calculation Results</h2>
+            <p>AP: {{ total_ap }}</p>
+            <p>対弾防御: {{ total_bullet_defence }}</p>
+            <p>EN防御: {{ total_en_defence }}</p>
+            <p>対爆防御: {{ total_explosion_defence }}</p>
+            <p>姿勢安定性能: {{ total_stability }}</p>
+            <p>システム復元性能: {{ recovery_performance }}</p>
+            <p>EN出力: {{ en_output }}</p>
+            <p>EN負荷: {{ en_load }}</p>
+            <p>腕部積載量: {{ arm_load }}</p>
+            <p>腕部積載上限: {{ arm_load_capacity }}</p>
+            <p>総重量: {{ total_weight }}</p>
+            <p>積載上限: {{ leg_load_capacity }}</p>
+
+            {% if en_warning %}
+                <p class="warning">EN出力不足</p>
+            {% endif %}
+            {% if arm_load_warning %}
+            {% endif %}
+            {% if weight_warning %}
+            {% endif %}
+                <p class="warning">積載超過</p>
+                <p class="warning">腕部積載超過</p>
+            {% for warning in warnings %}
+                <p class="warning">{{ warning }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./django_project:/usr/src/app/django_project
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: hauto
+      POSTGRES_PASSWORD: jeuW4vi!Es
+      POSTGRES_DB: ac6
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
