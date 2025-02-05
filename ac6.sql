@@ -4,10 +4,11 @@
 -- https://tableplus.com/
 --
 -- Database: ac6
--- Generation Time: 2025-01-30 22:38:44.0470
+-- Generation Time: 2025-02-04 19:51:32.1570
 -- -------------------------------------------------------------
 
 
+DROP TABLE IF EXISTS "public"."ac6_arms";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -26,6 +27,7 @@ CREATE TABLE "public"."ac6_arms" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_booster";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -39,6 +41,7 @@ CREATE TABLE "public"."ac6_booster" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_core";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -58,6 +61,28 @@ CREATE TABLE "public"."ac6_core" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_customconfiguration";
+-- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
+
+-- Table Definition
+CREATE TABLE "public"."ac6_customconfiguration" (
+    "id" int8 NOT NULL,
+    "name" varchar(100) NOT NULL,
+    "arm_id" int8 NOT NULL,
+    "booster_id" int8 NOT NULL,
+    "core_id" int8 NOT NULL,
+    "fcs_id" int8 NOT NULL,
+    "generator_id" int8 NOT NULL,
+    "head_id" int8 NOT NULL,
+    "leg_id" int8 NOT NULL,
+    "unit_left_arm_id" int8,
+    "unit_left_shoulder_id" int8,
+    "unit_right_arm_id" int8,
+    "unit_right_shoulder_id" int8,
+    PRIMARY KEY ("id")
+);
+
+DROP TABLE IF EXISTS "public"."ac6_fcs";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -71,6 +96,7 @@ CREATE TABLE "public"."ac6_fcs" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_generator";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -84,6 +110,7 @@ CREATE TABLE "public"."ac6_generator" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_head";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -103,6 +130,7 @@ CREATE TABLE "public"."ac6_head" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_legs";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -122,6 +150,7 @@ CREATE TABLE "public"."ac6_legs" (
     PRIMARY KEY ("id")
 );
 
+DROP TABLE IF EXISTS "public"."ac6_units";
 -- This script only contains the table creation statements and does not fully represent the table in the database. Do not use it as a backup.
 
 -- Table Definition
@@ -192,6 +221,11 @@ INSERT INTO "public"."ac6_core" ("id", "name", "weight", "load", "ap", "bullet_d
 (15, '07-061 MIND ALPHA', 16510, 364, 3520, 440, 455, 445, 455, 112, 553000, 'ALLMIND'),
 (16, 'IA-C01C: EPHEMERA', 13200, 412, 2710, 335, 382, 350, 353, 126, 590000, 'INSTITUTE'),
 (17, 'IB-C03C: HAL 826', 18526, 366, 3670, 451, 469, 463, 385, 120, 663000, 'INSTITUTE');
+
+INSERT INTO "public"."ac6_customconfiguration" ("id", "name", "arm_id", "booster_id", "core_id", "fcs_id", "generator_id", "head_id", "leg_id", "unit_left_arm_id", "unit_left_shoulder_id", "unit_right_arm_id", "unit_right_shoulder_id") VALUES
+(1, 'STEEL HAZE', 9, 5, 7, 2, 3, 9, 7, 8, 14, 30, 202),
+(2, 'LOADER 4', 12, 2, 10, 1, 1, 14, 9, 10, NULL, 17, 64),
+(3, 'HEAD BRINGER', 4, 3, 4, 6, 5, 5, 4, 20, 210, 15, 64);
 
 INSERT INTO "public"."ac6_fcs" ("id", "name", "weight", "load", "price", "manufacture") VALUES
 (1, 'FCS-G1/P01', 80, 198, 0, 'FURLONG'),
@@ -489,3 +523,29 @@ INSERT INTO "public"."ac6_units" ("id", "name", "weight", "load", "is_left_arm",
 (213, 'VE-61PSA', 4100, 480, 'f', 'f', 't', 'f', 197000, 'ARQUEBUS A.D.D.'),
 (214, 'IB-C03W4: NGI 028', 2170, 800, 'f', 'f', 't', 'f', 255000, 'INSTITUTE');
 
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("unit_left_arm_id") REFERENCES "public"."ac6_units"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("head_id") REFERENCES "public"."ac6_head"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("fcs_id") REFERENCES "public"."ac6_fcs"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("generator_id") REFERENCES "public"."ac6_generator"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("core_id") REFERENCES "public"."ac6_core"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("leg_id") REFERENCES "public"."ac6_legs"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("unit_right_shoulder_id") REFERENCES "public"."ac6_units"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("unit_right_arm_id") REFERENCES "public"."ac6_units"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("arm_id") REFERENCES "public"."ac6_arms"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("booster_id") REFERENCES "public"."ac6_booster"("id");
+ALTER TABLE "public"."ac6_customconfiguration" ADD FOREIGN KEY ("unit_left_shoulder_id") REFERENCES "public"."ac6_units"("id");
+
+
+-- Indices
+CREATE UNIQUE INDEX ac6_configuration_pkey ON public.ac6_customconfiguration USING btree (id);
+CREATE INDEX ac6_configuration_arms_id_3b190a39 ON public.ac6_customconfiguration USING btree (arm_id);
+CREATE INDEX ac6_configuration_booster_id_26903821 ON public.ac6_customconfiguration USING btree (booster_id);
+CREATE INDEX ac6_configuration_core_id_293648e5 ON public.ac6_customconfiguration USING btree (core_id);
+CREATE INDEX ac6_configuration_fcs_id_129e53f2 ON public.ac6_customconfiguration USING btree (fcs_id);
+CREATE INDEX ac6_configuration_generator_id_bdf84c46 ON public.ac6_customconfiguration USING btree (generator_id);
+CREATE INDEX ac6_configuration_head_id_df56e20e ON public.ac6_customconfiguration USING btree (head_id);
+CREATE INDEX ac6_configuration_legs_id_efa7f8f3 ON public.ac6_customconfiguration USING btree (leg_id);
+CREATE INDEX ac6_configuration_unit_left_arm_id_aaa5e397 ON public.ac6_customconfiguration USING btree (unit_left_arm_id);
+CREATE INDEX ac6_configuration_unit_left_shoulder_id_91337095 ON public.ac6_customconfiguration USING btree (unit_left_shoulder_id);
+CREATE INDEX ac6_configuration_unit_right_arm_id_5bd24961 ON public.ac6_customconfiguration USING btree (unit_right_arm_id);
+CREATE INDEX ac6_configuration_unit_right_shoulder_id_7fd5a72f ON public.ac6_customconfiguration USING btree (unit_right_shoulder_id);

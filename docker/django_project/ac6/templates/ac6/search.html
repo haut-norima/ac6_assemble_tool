@@ -1,0 +1,48 @@
+{% extends 'ac6/base.html' %}
+
+{% block title %}パーツ構成登録{% endblock %}
+
+{% block content %}
+<body>
+    <h1>構成検索</h1>
+    <form method="get">
+        <label for="query">構成名:</label>
+        <input type="text" id="query" name="query" value="{{ query }}">
+        <button type="submit">検索</button>
+    </form>
+
+    {% if results %}
+        <h2>検索結果</h2>
+        <ul>
+            {% for config in results %}
+                <li>
+                    <h3>{{ config.name }}</h3>
+                    <p>Head: {{ config.head }}</p>
+                    <p>Core: {{ config.core }}</p>
+                    <p>Arm: {{ config.arm }}</p>
+                    <p>Leg: {{ config.leg }}</p>
+                    <p>FCS: {{ config.fcs }}</p>
+                    <p>Booster: {{ config.booster }}</p>
+                    <p>Generator: {{ config.generator }}</p>
+                    <p>Left Arm Unit: {{ config.unit_left_arm }}</p>
+                    <p>Right Arm Unit: {{ config.unit_right_arm }}</p>
+                    <p>Left Shoulder Unit: {{ config.unit_left_shoulder }}</p>
+                    <p>Right Shoulder Unit: {{ config.unit_right_shoulder }}</p>
+                    <p>Total AP: {{ config.total_ap }}</p>
+                    <p>Total Bullet Defence: {{ config.total_bullet_defence }}</p>
+                    <p>Total EN Defence: {{ config.total_en_defence }}</p>
+                    <p>Total Explosion Defence: {{ config.total_explosion_defence }}</p>
+                    <p>Total Stability: {{ config.total_stability }}</p>
+                    <p>Recovery Performance: {{ config.recovery_performance }}</p>
+                    <p>EN Output: {{ config.en_output }}</p>
+                    <p>EN Load: {{ config.en_load }}</p>
+                    <p>Total Weight: {{ config.total_weight }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif query %}
+        <p>該当する構成が見つかりませんでした。</p>
+    {% endif %}
+</body>
+</html>
+{% endblock %}

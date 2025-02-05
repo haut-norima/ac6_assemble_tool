@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Armored Core 6 Customizer</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'ac6/styles.css' %}">
-</head>
+{% extends 'ac6/base.html' %}
+
+{% block title %}パーツ構成登録{% endblock %}
+
+{% block content %}
 <body>
     <h1>Armored Core 6 Customizer</h1>
     <form method="post">
@@ -99,6 +97,10 @@
         </select><br>
 
         <button type="submit">確定</button>
+        <label for="config_name">構成名:</label>
+        <input type="text" id="config_name" name="config_name" required><br>
+        <button type="submit" name="save_config" value="save">保存</button>
+        <button type="submit">確定</button>
     </form>
     {% if total_ap %}
         <div class="results">
@@ -120,15 +122,15 @@
                 <p class="warning">EN出力不足</p>
             {% endif %}
             {% if arm_load_warning %}
+                <p class="warning">腕部積載超過</p>
             {% endif %}
             {% if weight_warning %}
-            {% endif %}
                 <p class="warning">積載超過</p>
-                <p class="warning">腕部積載超過</p>
+            {% endif %}
             {% for warning in warnings %}
                 <p class="warning">{{ warning }}</p>
             {% endfor %}
         </div>
     {% endif %}
 </body>
-</html>
+{% endblock %}
